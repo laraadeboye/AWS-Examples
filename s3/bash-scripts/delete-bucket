@@ -14,7 +14,4 @@ BUCKET_NAME=$1
 # location constraint must be specified: https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html
 aws s3api delete-bucket \
     --bucket $BUCKET_NAME \
-    --region eu-west-1 \
-    --create-bucket-configuration LocationConstraint=eu-west-1 \
-    --query Location \
-    --output text
+    
