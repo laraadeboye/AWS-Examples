@@ -4,7 +4,7 @@ echo -e "\n~~ Create S3 bucket ~~\n"
 
 # Check for bucket name
 if [ -z "$1" ]; then
-    echo "Please enter a bucket name e.g ./bucket my-bucket-name"
+    echo "Please enter a bucket name e.g ./create-bucket my-bucket-name"
     exit 1
 fi
 
