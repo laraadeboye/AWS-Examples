@@ -1,0 +1,17 @@
+echo -e "\n~~ delete-objects ~~\n"
+
+# Exit immediately if any command returns a non-zero status
+set -e
+
+# Check for bucket name
+if [ -z "$1" ]; then
+    echo "Please enter a bucket name e.g ./sync my-bucket-name"
+    exit 1
+fi
+
+BUCKET_NAME=$1
+
+$(aws s3api delete-objects-v2 --bucket $BUCKET_NAME)
+aws s3api delete-objects --bucket $BUCKET_NAME
+
+jq -r '.Contents[].Key'

@@ -1,1 +1,55 @@
 #!/usr/bin/env bash
+echo -e "\n~~ sync ~~\n"
+
+# Exit immediately if any command returns a non-zero status
+set -e
+
+# Check for bucket name
+if [ -z "$1" ]; then
+    echo "Please enter a bucket name e.g ./sync my-bucket-name"
+    exit 1
+fi
+
+
+# Check for filename prefix
+if [ -z "$2" ]; then
+    echo "Please enter a file prefix e.g ./sync my-bucket-name myfile"
+    exit 1
+fi
+
+BUCKET_NAME=$1
+FILENAME_PREFIX=$2
+
+# Where the files will be stored
+OUTPUT_DIR="/tmp/s3-bash-scripts"
+
+# Remove the $OUTPUT_DIR if it already exists
+rm -rf "$OUTPUT_DIR"
+
+# Create output folder
+mkdir -p "$OUTPUT_DIR"
+
+
+# Generate a random number of files
+NUM_FILES=$((RANDOM % 6 + 5))
+
+# Function to generate random data
+generate_random_data() {
+    head -c 100 /dev/urandom | base64
+}
+
+# Create the random files and write random data to them
+for ((i = 1; i <= NUM_FILES; i++)); do
+    # Construct the filename with the output directory 
+    FILENAME="$OUTPUT_DIR/${FILENAME_PREFIX}_$i.txt"
+    
+    # Generate random data and write it to the file
+    random_data=$(generate_random_data)
+    echo "$random_data" > "$FILENAME"
+    
+    echo "Created file: $FILENAME with random data"
+done
+
+tree "$OUTPUT_DIR"
+
+aws s3 sync $OUTPUT_DIR s3://$BUCKET_NAME/files
