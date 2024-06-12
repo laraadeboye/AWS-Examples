@@ -1,1 +1,27 @@
 #!/usr/bin/env bash
+#where the files will be stored
+OUTPUT_DIR = "/tmp/s3-bash-scripts"
+
+# Create output folder
+mkdir -p $OUTPUT_DIR
+
+# Generate a random number of files
+NUM_FILES = $((RANDOM % 6 + 5))
+
+# Function to generate random data
+generate_random_data() {
+    head -c 100 /dev/urandom | base64
+}
+
+# Create the random files and write random data to them
+for ((i = 1; i <= num_files; i++)); do
+    # Construct the filename with the output directory 
+    FILENAME="$OUTPUT_DIR/file_$i.txt"
+    
+    # Generate random data and write it to the file
+    random_data=$(generate_random_data)
+    echo "$random_data" > "$FILENAME"
+    
+    echo "Created file: $FILENAME with random data"
+done
+
