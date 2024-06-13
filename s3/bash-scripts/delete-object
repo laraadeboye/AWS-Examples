@@ -15,7 +15,7 @@ BUCKET_NAME=$1
 aws s3api list-objects-v2 \
 --bucket $BUCKET_NAME \
 --query Contents[].Key \
-| jq -n {'Objects: [inputs | .[] | {Key: }]}' > /tmp/delete_objects.json
+| jq -n '{Objects: [inputs | .[] | {Key: .}]}' > /tmp/delete_objects.json
 
 aws s3api delete-objects --bucket $BUCKET_NAME --delete /tmp/delete_objects.json
 
