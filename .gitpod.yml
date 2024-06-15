@@ -18,6 +18,9 @@ tasks:
       sudo apt-get install -y powershell
       # pwsh
       # Install-Module -Name AWS.Tools.Installer
+      # Install PowerShell modules
+      pwsh -Command "Install-Module -Name AWS.Tools.Installer -Force -Scope CurrentUser"
+      pwsh -Command "Install-AWSToolsModule AWS.Tools.S3 -CleanUp -Scope CurrentUser"
   # https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
   - name: aws-cli
     env:
